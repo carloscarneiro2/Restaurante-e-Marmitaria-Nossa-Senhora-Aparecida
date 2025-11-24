@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurante e Marmitaria Nossa Senhora Aparecida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    header {
+      background: linear-gradient(135deg, #b91c1c, #f97316);
+      color: #fff;
+      padding: 10px 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .logo-slot {
+      max-width: 360px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .logo-img {
+      width: 100%;
+      max-height: 90px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 4px 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      display: block;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr;
+      gap: 20px;
+    }
+
+    @media(max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .logo-slot { max-width: 260px; }
+      .logo-img { max-height: 70px; }
+    }
+
+    .card {
+      background: #ffffff;
+      color: #333;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+      border: 1px solid #d1d5db;
+      margin-bottom: 16px;
+    }
+
+    .card-title { font-size: 18px; font-weight: bold; }
+    .card-subtitle { font-size: 13px; color: #666; margin-bottom: 12px; }
+
+    .cardapio-img img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      display: block;
+    }
+
+    label { display:block; font-weight:bold; margin-top:10px; font-size: 14px; }
+
+    input, textarea {
+      width: 100%; padding: 10px; margin-top: 4px;
+      border-radius: 8px; border: 1px solid #bbb;
+      font-size: 14px;
+    }
+
+    textarea { min-height: 80px; resize: vertical; }
+
+    .btn-primary {
+      background: #b91c1c; color:#fff; border:none;
+      padding: 10px 16px; border-radius:8px;
+      font-weight:bold; cursor:pointer;
+    }
+
+    .btn-whats {
+      background: #22c55e; color:#fff;
+      padding: 10px 16px; border-radius:8px;
+      border:none; cursor:pointer;
+      margin-left:10px;
+      font-weight:bold;
+    }
+
+    .btn-whats:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-copy {
+      background: #0f172a;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .payment-box {
+      background:#f7f7f7; padding:15px; border-radius:12px;
+      border:1px solid #ccc; margin-top: 10px;
+    }
+
+    .payment-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .pay-option {
+      background:#fff; border-radius:10px;
+      border:1px solid #ccc;
+      padding:12px; margin-top:10px;
+      display:flex; justify-content:space-between; align-items: center;
+      cursor:pointer;
+      transition:0.15s;
+    }
+
+    .pay-option:hover {
+      border-color:#b91c1c;
+    }
+
+    .pay-option.selected {
+      border-color:#b91c1c;
+      background:#ffecec;
+      box-shadow:0 0 0 2px #ffb3b3;
+    }
+
+    .flag-row { display:flex; gap:6px; margin-top:4px; }
+    .flag {
+      padding:3px 8px; background:#fff;
+      border:1px solid #aaa; border-radius:6px;
+      font-size:12px;
+    }
+
+    .card-details {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px dashed #bbb;
+      background: #ffffff;
+      display: none;
+    }
+
+    .card-details-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 10px;
+    }
+
+    .card-details-row-3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media(max-width: 600px) {
+      .card-details-row,
+      .card-details-row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-details label {
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .card-warning {
+      font-size: 11px;
+      color: #b91c1c;
+      margin-top: 6px;
+    }
+
+    .pix-details {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px dashed #bbb;
+      background: #ffffff;
+      display: none;
+      font-size: 13px;
+    }
+
+    .pix-key-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .pix-key-input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      font-size: 13px;
+    }
+
+    .pix-qr-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    #pixQr {
+      background: #fff;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    pre#resumo-pedido {
+      white-space: pre-wrap;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1 class="header-title">Restaurante e Marmitaria Nossa Senhora Aparecida</h1>
+    <div class="logo-slot">
+      <!-- Use este nome de arquivo no mesmo diretório do index.html -->
+      <img src="logo-nossa-senhora.jpg" alt="Restaurante e Marmitaria Nossa Senhora Aparecida" class="logo-img">
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+
+    <!-- LADO ESQUERDO – APENAS A IMAGEM DO CARDÁPIO -->
+    <div>
+      <div class="card">
+        <div class="cardapio-img">
+          <!-- Use este nome de arquivo para o cardápio no mesmo diretório -->
+          <img id="cardapioImg" src="cardapio-restaurante.jpg" alt="Cardápio do Dia">
+        </div>
+      </div>
+    </div>
+
+    <!-- LADO DIREITO – FORMULÁRIO -->
+    <div>
+      <div class="card">
+        <div class="card-title">Monte seu Pedido</div>
+
+        <form id="formPedido">
+
+          <label for="nomeCliente">Nome completo</label>
+          <input id="nomeCliente" required>
+
+          <label for="telefoneCliente">Telefone / WhatsApp</label>
+          <input id="telefoneCliente">
+
+          <label for="descricaoPedido">Pedido conforme cardápio</label>
+          <textarea id="descricaoPedido" required></textarea>
+
+          <div class="payment-box">
+            <div class="payment-title">Forma de pagamento</div>
+
+            <div class="pay-option" data-method="Cartões">
+              <div>
+                <b>Cartões</b>
+                <div class="flag-row">
+                  <div class="flag">Visa</div>
+                  <div class="flag">MasterCard</div>
+                  <div class="flag">Elo</div>
+                </div>
+              </div>
+              <span>💳</span>
+            </div>
+
+            <div class="pay-option" data-method="Pix">
+              <div>
+                <b>Pix</b><br>
+                <small>Chave: 545405380001</small>
+              </div>
+              <span>🔁</span>
+            </div>
+
+            <div class="pay-option" data-method="Dinheiro">
+              <div><b>Dinheiro</b><br><small>Troco na entrega</small></div>
+              <span>💵</span>
+            </div>
+
+            <input type="hidden" id="pagamentoCliente">
+
+            <!-- Detalhes do cartão -->
+            <div id="cardDetails" class="card-details">
+              <div class="card-details-row">
+                <div>
+                  <label for="cardName">Nome impresso no cartão</label>
+                  <input type="text" id="cardName" placeholder="Ex.: JOÃO DA SILVA">
+                </div>
+                <div>
+                  <label for="cardBrand">Bandeira</label>
+                  <input type="text" id="cardBrand" placeholder="Visa, MasterCard, Elo...">
+                </div>
+              </div>
+
+              <label for="cardNumber">Número do cartão</label>
+              <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+
+              <div class="card-details-row-3">
+                <div>
+                  <label for="cardValid">Validade (MM/AA)</label>
+                  <input type="text" id="cardValid" placeholder="MM/AA">
+                </div>
+                <div>
+                  <label for="cardCVV">CVV</label>
+                  <input type="password" id="cardCVV" placeholder="***">
+                </div>
+                <div>
+                  <label for="cardInstallments">Parcelas</label>
+                  <input type="text" id="cardInstallments" placeholder="Ex.: 1x, 2x...">
+                </div>
+              </div>
+
+              <p class="card-warning">
+                Importante: este formulário é apenas visual.
+                Para pagamento real, utilize sempre um sistema seguro (maquininha/gateway).
+              </p>
+            </div>
+
+            <!-- Detalhes Pix: chave + QR Code -->
+            <div id="pixDetails" class="pix-details">
+              <div class="pix-key-box">
+                <span><b>Chave Pix (copia e cola):</b></span>
+                <input type="text" id="pixKeyInput" class="pix-key-input" value="545405380001" readonly>
+                <button type="button" id="btnCopyPix" class="btn-copy">Copiar chave Pix</button>
+              </div>
+              <div class="pix-qr-wrapper">
+                <span><b>QR Code Pix:</b></span>
+                <div id="pixQr"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <label for="trocoCliente">Troco para quanto? (se for dinheiro)</label>
+          <input id="trocoCliente" placeholder="Ex.: R$ 100,00">
+
+          <label for="enderecoCliente">Endereço completo</label>
+          <textarea id="enderecoCliente" required placeholder="Rua, número, bairro, cidade, ponto de referência..."></textarea>
+
+          <label for="obsCliente">Observações</label>
+          <textarea id="obsCliente" placeholder="Ex.: portão azul, tocar campainha, tirar cebola..."></textarea>
+
+          <br>
+          <button class="btn-primary" type="submit">Finalizar pedido</button>
+          <button class="btn-whats" id="btnEnviarWhats" disabled>Enviar via WhatsApp</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-title">Resumo do Pedido</div>
+    <pre id="resumo-pedido">Nenhum pedido montado ainda.</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Área do Estabelecimento (teste local)</div>
+    <button id="btnAdminLogin" class="btn-primary">Acessar painel</button>
+
+    <div id="adminPanel" style="display:none;margin-top:10px;">
+      <label for="inputCardapioImg">Enviar nova imagem do cardápio</label>
+      <input type="file" id="inputCardapioImg" accept="image/*">
+      <p style="font-size:12px;color:#555;margin-top:4px;">
+        Este envio atualiza APENAS neste aparelho (salvo no navegador).
+        Para todos verem, atualize o arquivo cardapio-restaurante.jpg no GitHub/servidor.
+      </p>
+    </div>
+  </div>
+
+</main>
+
+<!-- Biblioteca para gerar QR Code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+const ADMIN_PASSWORD = "restaurante123";
+const WHATSAPP_NUMBER = "5512987036362";
+const PIX_KEY = "545405380001";
+
+const adminPanel = document.getElementById("adminPanel");
+const cardapioImg = document.getElementById("cardapioImg");
+
+const saved = localStorage.getItem("cardapioImg");
+if(saved) cardapioImg.src = saved;
+
+document.getElementById("btnAdminLogin").onclick = () => {
+  const s = prompt("Senha do estabelecimento:");
+  if(s === ADMIN_PASSWORD) adminPanel.style.display = "block";
+  else alert("Senha incorreta!");
+};
+
+document.getElementById("inputCardapioImg").onchange = e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    cardapioImg.src = ev.target.result;
+    localStorage.setItem("cardapioImg", ev.target.result);
+  };
+  r.readAsDataURL(f);
+};
+
+const payOptions = document.querySelectorAll(".pay-option");
+const pagamentoHidden = document.getElementById("pagamentoCliente");
+const cardDetailsBox = document.getElementById("cardDetails");
+const pixDetailsBox = document.getElementById("pixDetails");
+let pixQrInstance = null;
+
+payOptions.forEach(opt => {
+  opt.onclick = () => {
+    payOptions.forEach(o => o.classList.remove("selected"));
+    opt.classList.add("selected");
+    const method = opt.getAttribute("data-method") || "";
+    pagamentoHidden.value = method;
+
+    if (method === "Cartões") {
+      cardDetailsBox.style.display = "block";
+      pixDetailsBox.style.display = "none";
+    } else if (method === "Pix") {
+      cardDetailsBox.style.display = "none";
+      pixDetailsBox.style.display = "block";
+      if (!pixQrInstance) {
+        pixQrInstance = new QRCode(document.getElementById("pixQr"), {
+          text: PIX_KEY,
+          width: 128,
+          height: 128
+        });
+      }
+    } else {
+      cardDetailsBox.style.display = "none";
+      pixDetailsBox.style.display = "none";
+    }
+  };
+});
+
+// Copiar chave Pix
+document.getElementById("btnCopyPix").onclick = () => {
+  const input = document.getElementById("pixKeyInput");
+  input.select();
+  input.setSelectionRange(0, 99999);
+  try {
+    document.execCommand("copy");
+    alert("Chave Pix copiada!");
+  } catch (e) {
+    alert("Não foi possível copiar automaticamente. Copie manualmente: " + PIX_KEY);
+  }
+};
+
+let resumoFinal = "";
+
+document.getElementById("formPedido").onsubmit = e => {
+  e.preventDefault();
+
+  const nome = document.getElementById("nomeCliente").value.trim();
+  const tel = document.getElementById("telefoneCliente").value.trim();
+  const pedido = document.getElementById("descricaoPedido").value.trim();
+  const pg = document.getElementById("pagamentoCliente").value.trim();
+  const troco = document.getElementById("trocoCliente").value.trim();
+  const end = document.getElementById("enderecoCliente").value.trim();
+  const obs = document.getElementById("obsCliente").value.trim();
+
+  if (!nome || !pedido || !end || !pg) {
+    alert("Preencha nome, pedido, endereço e selecione a forma de pagamento.");
+    return;
+  }
+
+  let textoExtraPg = "";
+  if (pg === "Dinheiro" && troco) {
+    textoExtraPg = "\nTroco para: " + troco;
+  }
+  if (pg === "Pix") {
+    textoExtraPg = "\nChave Pix: " + PIX_KEY;
+  }
+
+  let textoCartao = "";
+  if (pg === "Cartões") {
+    const cName = document.getElementById("cardName").value.trim();
+    const cBrand = document.getElementById("cardBrand").value.trim();
+    const cNumber = document.getElementById("cardNumber").value.trim();
+    const cValid = document.getElementById("cardValid").value.trim();
+    const cCVV = document.getElementById("cardCVV").value.trim();
+    const cInst = document.getElementById("cardInstallments").value.trim();
+
+    textoCartao =
+`\n\n📇 Dados do cartão (informados pelo cliente):
+Nome no cartão: ${cName || "-"}
+Bandeira: ${cBrand || "-"}
+Número: ${cNumber || "-"}
+Validade: ${cValid || "-"}
+CVV: ${cCVV ? "***" : "-"}
+Parcelas: ${cInst || "-"}
+(Conferir e processar apenas em ambiente seguro.)`;
+  }
+
+  resumoFinal =
+`📦 *Novo pedido - Nossa Senhora Aparecida*
+
+👤 Nome: ${nome}
+📞 Telefone: ${tel || "não informado"}
+🏠 Endereço: ${end}
+
+🍽 Pedido:
+${pedido}
+
+💳 Pagamento: ${pg}${textoExtraPg}
+
+📝 Observações:
+${obs || "Nenhuma"}${textoCartao}`;
+
+  document.getElementById("resumo-pedido").textContent = resumoFinal;
+  document.getElementById("btnEnviarWhats").disabled = false;
+};
+
+document.getElementById("btnEnviarWhats").onclick = () => {
+  if (!resumoFinal) {
+    alert("Monte o pedido antes de enviar pelo WhatsApp.");
+    return;
+  }
+  const msg = encodeURIComponent(resumoFinal);
+  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg, "_blank");
+};
+</script>
+
+</body>
+</html>
