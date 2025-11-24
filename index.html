@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurante e Marmitaria Nossa Senhora Aparecida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    /* 🔵 Tela azul suave (como estava anteriormente) */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a; /* azul escuro elegante */
+      color: #e5e7eb;
+    }
+
+    header {
+      background: linear-gradient(135deg, #b91c1c, #f97316);
+      color: #fff;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-slot {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 2px dashed #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    h1 { font-size: 20px; margin: 0; }
+
+    main {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    /* Layout lado esquerdo e direito */
+    .layout {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr;
+      gap: 20px;
+    }
+
+    @media(max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* Cards brancos sobre fundo azul */
+    .card {
+      background: #ffffff;
+      color: #333;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+      border: 1px solid #d1d5db;
+    }
+
+    .card-title { font-size: 18px; font-weight: bold; }
+    .card-subtitle { font-size: 13px; color: #666; margin-bottom: 12px; }
+
+    .cardapio-img img {
+      width: 100%; border-radius: 10px;
+      border: 1px solid #ccc; object-fit: cover;
+      max-height: 450px;
+    }
+
+    label { display:block; font-weight:bold; margin-top:10px; }
+
+    input, textarea {
+      width: 100%; padding: 10px; margin-top: 4px;
+      border-radius: 8px; border: 1px solid #bbb;
+    }
+
+    textarea { min-height: 80px; resize: vertical; }
+
+    .btn-primary {
+      background: #b91c1c; color:#fff; border:none;
+      padding: 10px 16px; border-radius:8px;
+      font-weight:bold; cursor:pointer;
+    }
+
+    .btn-whats {
+      background: #22c55e; color:#fff;
+      padding: 10px 16px; border-radius:8px;
+      border:none; cursor:pointer;
+      margin-left:10px;
+      font-weight:bold;
+    }
+
+    /* Pagamento visual moderno */
+    .payment-box {
+      background:#f7f7f7; padding:15px; border-radius:12px;
+      border:1px solid #ccc;
+    }
+
+    .pay-option {
+      background:#fff; border-radius:10px;
+      border:1px solid #ccc;
+      padding:12px; margin-top:10px;
+      display:flex; justify-content:space-between;
+      cursor:pointer;
+      transition:0.15s;
+    }
+
+    .pay-option.selected {
+      border-color:#b91c1c;
+      background:#ffecec;
+      box-shadow:0 0 0 2px #ffb3b3;
+    }
+
+    .flag-row { display:flex; gap:6px; margin-top:4px; }
+    .flag {
+      padding:3px 8px; background:#fff;
+      border:1px solid #aaa; border-radius:6px;
+      font-size:12px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-slot">LOGO<br>NSª</div>
+    <h1>Restaurante e Marmitaria Nossa Senhora Aparecida</h1>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+
+    <!-- LADO ESQUERDO – CARDÁPIO -->
+    <div class="card">
+      <div class="card-title">Cardápio do Dia</div>
+      <div class="card-subtitle">Visualize a imagem enviada pelo estabelecimento.</div>
+
+      <div class="cardapio-img">
+        <img id="cardapioImg" src="https://via.placeholder.com/900x500?text=Card%C3%A1pio+Atual">
+      </div>
+
+      <p style="font-size:12px;color:#555;">
+        Apenas o restaurante pode alterar esta imagem (área com senha).
+      </p>
+    </div>
+
+    <!-- LADO DIREITO – FORMULÁRIO -->
+    <div class="card">
+      <div class="card-title">Monte seu Pedido</div>
+
+      <form id="formPedido">
+
+        <label>Nome completo</label>
+        <input id="nomeCliente" required>
+
+        <label>Telefone / WhatsApp</label>
+        <input id="telefoneCliente">
+
+        <label>Pedido conforme cardápio</label>
+        <textarea id="descricaoPedido" required></textarea>
+
+        <div class="payment-box">
+          <strong>Forma de pagamento</strong>
+
+          <div class="pay-option" data-method="Cartões">
+            <div>
+              <b>Cartões</b>
+              <div class="flag-row">
+                <div class="flag">Visa</div>
+                <div class="flag">MasterCard</div>
+                <div class="flag">Elo</div>
+              </div>
+            </div>
+            💳
+          </div>
+
+          <div class="pay-option" data-method="Pix">
+            <div><b>Pix</b><br><small>Transferência imediata</small></div>
+            🔁
+          </div>
+
+          <div class="pay-option" data-method="Dinheiro">
+            <div><b>Dinheiro</b><br><small>Troco na entrega</small></div>
+            💵
+          </div>
+
+          <input type="hidden" id="pagamentoCliente">
+        </div>
+
+        <label>Troco para quanto? (se for dinheiro)</label>
+        <input id="trocoCliente">
+
+        <label>Endereço completo</label>
+        <textarea id="enderecoCliente" required></textarea>
+
+        <label>Observações</label>
+        <textarea id="obsCliente"></textarea>
+
+        <br>
+        <button class="btn-primary" type="submit">Finalizar pedido</button>
+        <button class="btn-whats" id="btnEnviarWhats" disabled>Enviar WhatsApp</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- RESUMO -->
+  <div class="card">
+    <div class="card-title">Resumo do Pedido</div>
+    <pre id="resumo-pedido" style="white-space:pre-wrap;font-size:14px;color:#333;">Nenhum pedido montado ainda.</pre>
+  </div>
+
+  <!-- ÁREA DO ESTABELECIMENTO -->
+  <div class="card">
+    <div class="card-title">Área do Estabelecimento</div>
+    <button id="btnAdminLogin" class="btn-primary">Acessar painel</button>
+
+    <div id="adminPanel" style="display:none;margin-top:10px;">
+      <label>Enviar nova imagem do cardápio</label>
+      <input type="file" id="inputCardapioImg" accept="image/*">
+    </div>
+  </div>
+
+</main>
+
+<script>
+const ADMIN_PASSWORD = "restaurante123";
+const WHATSAPP_NUMBER = "5512987036362";
+
+const adminPanel = document.getElementById("adminPanel");
+const cardapioImg = document.getElementById("cardapioImg");
+
+const saved = localStorage.getItem("cardapioImg");
+if(saved) cardapioImg.src = saved;
+
+document.getElementById("btnAdminLogin").onclick = () => {
+  const s = prompt("Senha do estabelecimento:");
+  if(s === ADMIN_PASSWORD) adminPanel.style.display = "block";
+  else alert("Senha incorreta!");
+};
+
+document.getElementById("inputCardapioImg").onchange = e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    cardapioImg.src = ev.target.result;
+    localStorage.setItem("cardapioImg", ev.target.result);
+  };
+  r.readAsDataURL(f);
+};
+
+document.querySelectorAll(".pay-option").forEach(opt => {
+  opt.onclick = () => {
+    document.querySelectorAll(".pay-option").forEach(o => o.classList.remove("selected"));
+    opt.classList.add("selected");
+    document.getElementById("pagamentoCliente").value = opt.dataset.method;
+  };
+});
+
+let resumoFinal = "";
+
+document.getElementById("formPedido").onsubmit = e => {
+  e.preventDefault();
+
+  const nome = nomeCliente.value.trim();
+  const tel = telefoneCliente.value.trim();
+  const pedido = descricaoPedido.value.trim();
+  const pg = pagamentoCliente.value.trim();
+  const troco = trocoCliente.value.trim();
+  const end = enderecoCliente.value.trim();
+  const obs = obsCliente.value.trim();
+
+  if(!nome || !pedido || !end || !pg){
+    alert("Preencha tudo e selecione o pagamento.");
+    return;
+  }
+
+  resumoFinal =
+`📦 *Novo pedido - Nossa Senhora Aparecida*
+
+👤 Nome: ${nome}
+📞 Telefone: ${tel || "não informado"}
+🏠 Endereço: ${end}
+
+🍽 Pedido:
+${pedido}
+
+💳 Pagamento: ${pg}
+${pg === "Dinheiro" && troco ? "Troco para: " + troco : ""}
+
+📝 Observações:
+${obs || "Nenhuma"}`;
+
+  document.getElementById("resumo-pedido").textContent = resumoFinal;
+  document.getElementById("btnEnviarWhats").disabled = false;
+};
+
+document.getElementById("btnEnviarWhats").onclick = () => {
+  const msg = encodeURIComponent(resumoFinal);
+  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg, "_blank");
+};
+</script>
+
+</body>
+</html>
