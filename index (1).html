@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cardápio Online - Restaurante</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #0f172a;
+    }
+    header {
+      background: linear-gradient(135deg, #b91c1c, #f97316);
+      color: #f9fafb;
+      padding: 18px 24px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .brand-subtitle {
+      margin: 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    main {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 32px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card {
+      background: #020617;
+      border-radius: 16px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.25);
+      color: #e5e7eb;
+    }
+    .card + .card {
+      margin-top: 16px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .pill {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(248,250,252,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5e7eb;
+    }
+    .cardapio-img {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(55,65,81,0.7);
+      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+    }
+    .cardapio-img img {
+      width: 100%;
+      display: block;
+      max-height: 280px;
+      object-fit: cover;
+    }
+    .info-pequena {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+    .info-pequena strong {
+      color: #e5e7eb;
+    }
+    .badge-status {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(22,163,74,0.12);
+      color: #22c55e;
+      border: 1px solid rgba(22,163,74,0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+    .itens-cardapio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .item {
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(75,85,99,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .item-nome {
+      font-weight: 600;
+      font-size: 13px;
+      color: #f9fafb;
+    }
+    .item-descricao {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+    .item-preco {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fbbf24;
+      white-space: nowrap;
+    }
+    .item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .item-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+    .item-footer input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: #f97316;
+      cursor: pointer;
+    }
+    .item-footer input[type="number"] {
+      width: 64px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 11px;
+      text-align: center;
+    }
+    .item-footer label {
+      margin: 0;
+    }
+    label {
+      display: block;
+      margin: 6px 0 2px;
+      font-size: 12px;
+      color: #d1d5db;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.8);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    .input-inline {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 8px;
+    }
+    @media (max-width: 600px) {
+      .input-inline {
+        grid-template-columns: 1fr;
+      }
+    }
+    button {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.12s ease;
+      white-space: nowrap;
+    }
+    button:active {
+      transform: translateY(1px);
+      box-shadow: none;
+      filter: brightness(0.95);
+    }
+    .btn-primario {
+      background: linear-gradient(135deg, #f97316, #b91c1c);
+      color: #f9fafb;
+      box-shadow: 0 12px 35px rgba(249,115,22,0.35);
+    }
+    .btn-secundario {
+      background: rgba(15,23,42,0.98);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.6);
+      box-shadow: 0 10px 28px rgba(15,23,42,0.9);
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: #e5e7eb;
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    .btn-ghost:hover {
+      filter: brightness(1.05);
+    }
+    .btn-whatsapp {
+      background: #22c55e;
+      color: #022c22;
+      box-shadow: 0 10px 28px rgba(34,197,94,0.4);
+    }
+    .btn-whatsapp[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    #resumo-pedido {
+      background: radial-gradient(circle at top left, #111827 0, #020617 55%);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(75,85,99,0.9);
+      white-space: pre-line;
+      font-size: 12px;
+      color: #e5e7eb;
+      max-height: 260px;
+      overflow: auto;
+    }
+    .resumo-placeholder {
+      color: #6b7280;
+      font-style: italic;
+    }
+    .resumo-total {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(148,163,184,0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fbbf24;
+    }
+    .admin-info {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+    .admin-panel {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(148,163,184,0.6);
+      display: none;
+    }
+    .admin-panel.visible {
+      display: block;
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      backdrop-filter: blur(3px);
+    }
+    .modal-backdrop.visible {
+      display: flex;
+    }
+    .modal {
+      background: #020617;
+      border-radius: 14px;
+      padding: 16px 18px 14px;
+      border: 1px solid rgba(148,163,184,0.7);
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 20px 55px rgba(0,0,0,0.85);
+      color: #e5e7eb;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #9ca3af;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .modal-body {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .footer {
+      max-width: 1100px;
+      margin: 0 auto 10px;
+      padding: 0 16px;
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .footer span {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1 class="brand-title">Restaurante Exemplo</h1>
+      <p class="brand-subtitle">Cardápio digital para pedidos rápidos e organizados</p>
+    </div>
+    <div class="header-actions">
+      <span class="badge-status">
+        <span class="badge-status-dot"></span>
+        Aceitando pedidos
+      </span>
+      <button id="btnAdminLogin" class="btn-ghost" type="button">
+        Área do estabelecimento
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Cardápio em imagem</div>
+            <p class="card-subtitle">Visualização que o cliente enxerga do cardápio completo.</p>
+          </div>
+          <span class="pill">Somente leitura (cliente)</span>
+        </div>
+        <div class="cardapio-img">
+          <img id="cardapioImg" src="https://via.placeholder.com/1000x600?text=Card%C3%A1pio+do+Restaurante" alt="Cardápio do Restaurante">
+        </div>
+        <p class="info-pequena">
+          <strong>Atenção:</strong> apenas o estabelecimento, com senha, pode alterar esta imagem de cardápio.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Monte seu pedido</div>
+            <p class="card-subtitle">Selecione os itens desejados e ajuste as quantidades.</p>
+          </div>
+        </div>
+        <div class="itens-cardapio" id="listaItens">
+          <div class="item" data-name="Pizza de Calabresa" data-price="45.90">
+            <div class="item-header">
+              <div>
+                <div class="item-nome">Pizza de Calabresa</div>
+                <div class="item-descricao">Mussarela, calabresa fatiada, cebola e orégano.</div>
+              </div>
+              <div class="item-preco">R$ 45,90</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-footer-left">
+                <input type="checkbox" class="item-check" id="item1-check">
+                <label for="item1-check">Adicionar</label>
+              </div>
+              <label>
+                Qtde
+                <input type="number" class="item-qtde" min="1" value="1">
+              </label>
+            </div>
+          </div>
+
+          <div class="item" data-name="Hambúrguer Artesanal" data-price="29.90">
+            <div class="item-header">
+              <div>
+                <div class="item-nome">Hambúrguer Artesanal</div>
+                <div class="item-descricao">Blend 180g, queijo, alface, tomate e maionese da casa.</div>
+              </div>
+              <div class="item-preco">R$ 29,90</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-footer-left">
+                <input type="checkbox" class="item-check" id="item2-check">
+                <label for="item2-check">Adicionar</label>
+              </div>
+              <label>
+                Qtde
+                <input type="number" class="item-qtde" min="1" value="1">
+              </label>
+            </div>
+          </div>
+
+          <div class="item" data-name="Porção de Batata Frita" data-price="24.90">
+            <div class="item-header">
+              <div>
+                <div class="item-nome">Porção de Batata Frita</div>
+                <div class="item-descricao">Porção média, acompanha dois molhos especiais.</div>
+              </div>
+              <div class="item-preco">R$ 24,90</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-footer-left">
+                <input type="checkbox" class="item-check" id="item3-check">
+                <label for="item3-check">Adicionar</label>
+              </div>
+              <label>
+                Qtde
+                <input type="number" class="item-qtde" min="1" value="1">
+              </label>
+            </div>
+          </div>
+
+          <div class="item" data-name="Refrigerante Lata" data-price="7.50">
+            <div class="item-header">
+              <div>
+                <div class="item-nome">Refrigerante Lata</div>
+                <div class="item-descricao">Diversos sabores, 350ml.</div>
+              </div>
+              <div class="item-preco">R$ 7,50</div>
+            </div>
+            <div class="item-footer">
+              <div class="item-footer-left">
+                <input type="checkbox" class="item-check" id="item4-check">
+                <label for="item4-check">Adicionar</label>
+              </div>
+              <label>
+                Qtde
+                <input type="number" class="item-qtde" min="1" value="1">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dados do cliente</div>
+            <p class="card-subtitle">Use informações completas para facilitar a entrega.</p>
+          </div>
+        </div>
+
+        <form id="formPedido">
+          <label for="nomeCliente">Nome completo</label>
+          <input type="text" id="nomeCliente" required placeholder="Ex.: João da Silva">
+
+          <div class="input-inline">
+            <div>
+              <label for="telefoneCliente">Telefone / WhatsApp</label>
+              <input type="text" id="telefoneCliente" placeholder="(11) 99999-9999">
+            </div>
+            <div>
+              <label for="pagamentoCliente">Forma de pagamento</label>
+              <select id="pagamentoCliente">
+                <option value="Não informado">Selecione...</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão (crédito)">Cartão (crédito)</option>
+                <option value="Cartão (débito)">Cartão (débito)</option>
+                <option value="Pix">Pix</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="enderecoCliente">Endereço completo</label>
+          <textarea id="enderecoCliente" required placeholder="Rua, número, bairro, cidade, complemento / ponto de referência"></textarea>
+
+          <label for="trocoCliente">Precisa de troco para quanto? (se for dinheiro)</label>
+          <input type="text" id="trocoCliente" placeholder="Ex.: R$ 100,00">
+
+          <label for="obsCliente">Observações ao estabelecimento</label>
+          <textarea id="obsCliente" placeholder="Ex.: tirar cebola, ponto da carne, portão branco, etc."></textarea>
+
+          <div class="actions-row">
+            <button type="submit" class="btn-primario">
+              Finalizar pedido
+            </button>
+            <button type="button" id="btnEnviarWhats" class="btn-whatsapp" disabled>
+              Enviar via WhatsApp
+            </button>
+          </div>
+
+          <p class="info-pequena">
+            O botão de WhatsApp pode ser configurado pelo estabelecimento com o número oficial do restaurante.
+          </p>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Resumo do pedido</div>
+            <p class="card-subtitle">Confirme os itens, total e dados antes de enviar.</p>
+          </div>
+        </div>
+        <div id="resumo-pedido">
+          <span class="resumo-placeholder">Nenhum pedido montado ainda. Preencha seus dados e clique em "Finalizar pedido".</span>
+        </div>
+        <div class="resumo-total" id="resumo-total" style="display:none;">
+          <span>Total geral</span>
+          <span id="resumo-total-valor">R$ 0,00</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Área do estabelecimento</div>
+            <p class="card-subtitle">Somente para uso interno do restaurante.</p>
+          </div>
+          <span class="pill">Acesso com senha</span>
+        </div>
+        <p class="admin-info">
+          Depois de fazer login na área do estabelecimento (botão no topo), o painel abaixo ficará habilitado para trocar a foto do cardápio.
+        </p>
+        <div id="adminPanel" class="admin-panel">
+          <label for="inputCardapioImg">Nova foto do cardápio (imagem)</label>
+          <input type="file" id="inputCardapioImg" accept="image/*">
+          <p class="admin-info">
+            A imagem é salva apenas neste navegador (localStorage). Para uso profissional em produção, o ideal é enviar a imagem para um servidor.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="footer">
+  <span>Cardápio digital em JavaScript (GitHub Pages ready).</span>
+  <span>Cliente visualiza, estabelecimento administra.</span>
+</div>
+
+<div id="adminModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h3>Acesso do estabelecimento</h3>
+      <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-body">
+      Informe a senha de administração para gerenciar a imagem do cardápio.
+      <label for="adminPasswordInput" style="margin-top: 10px;">Senha do estabelecimento</label>
+      <input type="password" id="adminPasswordInput" placeholder="Digite a senha">
+      <p class="admin-info" style="margin-top: 6px;">
+        Dica: edite a senha diretamente no código (<code>ADMIN_PASSWORD</code>) antes de publicar no GitHub.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-ghost" id="modalCancelBtn">Cancelar</button>
+      <button type="button" class="btn-primario" id="modalConfirmBtn">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ADMIN_PASSWORD = "restaurante123";
+  const WHATSAPP_NUMBER = ""; // Ex.: "5511999999999" (somente números) para habilitar o botão
+
+  const btnAdminLogin = document.getElementById("btnAdminLogin");
+  const adminPanel = document.getElementById("adminPanel");
+  const inputCardapioImg = document.getElementById("inputCardapioImg");
+  const cardapioImg = document.getElementById("cardapioImg");
+  const formPedido = document.getElementById("formPedido");
+  const resumoPedido = document.getElementById("resumo-pedido");
+  const resumoTotal = document.getElementById("resumo-total");
+  const resumoTotalValor = document.getElementById("resumo-total-valor");
+  const btnEnviarWhats = document.getElementById("btnEnviarWhats");
+
+  const adminModal = document.getElementById("adminModal");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+  const modalCancelBtn = document.getElementById("modalCancelBtn");
+  const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+  const adminPasswordInput = document.getElementById("adminPasswordInput");
+
+  const imgSalva = localStorage.getItem("cardapioImgBase64");
+  if (imgSalva) {
+    cardapioImg.src = imgSalva;
+  }
+
+  function openAdminModal() {
+    adminModal.classList.add("visible");
+    adminPasswordInput.value = "";
+    setTimeout(() => {
+      adminPasswordInput.focus();
+    }, 50);
+  }
+
+  function closeAdminModal() {
+    adminModal.classList.remove("visible");
+  }
+
+  function tentarLoginAdmin() {
+    const senha = adminPasswordInput.value;
+    if (senha === ADMIN_PASSWORD) {
+      adminPanel.classList.add("visible");
+      closeAdminModal();
+      alert("Acesso liberado. Agora você pode trocar a imagem do cardápio.");
+    } else {
+      alert("Senha incorreta. Tente novamente.");
+      adminPasswordInput.focus();
+      adminPasswordInput.select();
+    }
+  }
+
+  btnAdminLogin.addEventListener("click", openAdminModal);
+  modalCloseBtn.addEventListener("click", closeAdminModal);
+  modalCancelBtn.addEventListener("click", closeAdminModal);
+  modalConfirmBtn.addEventListener("click", tentarLoginAdmin);
+
+  adminModal.addEventListener("click", (event) => {
+    if (event.target === adminModal) {
+      closeAdminModal();
+    }
+  });
+
+  inputCardapioImg.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64 = e.target.result;
+      cardapioImg.src = base64;
+      localStorage.setItem("cardapioImgBase64", base64);
+      alert("Cardápio atualizado com sucesso (neste navegador).");
+    };
+    reader.readAsDataURL(file);
+  });
+
+  let ultimoResumoTexto = "";
+
+  formPedido.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const nome = document.getElementById("nomeCliente").value.trim();
+    const telefone = document.getElementById("telefoneCliente").value.trim();
+    const pagamento = document.getElementById("pagamentoCliente").value;
+    const endereco = document.getElementById("enderecoCliente").value.trim();
+    const troco = document.getElementById("trocoCliente").value.trim();
+    const obs = document.getElementById("obsCliente").value.trim();
+
+    const itens = document.querySelectorAll("#listaItens .item");
+    let resumoItens = "";
+    let total = 0;
+
+    itens.forEach((item, index) => {
+      const check = item.querySelector(".item-check");
+      const qtdeInput = item.querySelector(".item-qtde");
+      const nomeItem = item.dataset.name;
+      const precoItem = parseFloat(item.dataset.price);
+
+      if (check.checked) {
+        let qtde = parseInt(qtdeInput.value);
+        if (isNaN(qtde) || qtde < 1) qtde = 1;
+        const subtotal = precoItem * qtde;
+        total += subtotal;
+        resumoItens += `• ${nomeItem} (x${qtde}) — R$ ${subtotal.toFixed(2)}
+`;
+      }
+    });
+
+    if (!resumoItens) {
+      alert("Selecione pelo menos um item do cardápio para montar o pedido.");
+      return;
+    }
+    if (!nome || !endereco) {
+      alert("Preencha pelo menos o nome completo e o endereço para montar o pedido.");
+      return;
+    }
+
+    let textoResumo =
+      "📌 *Novo pedido do cardápio online*\n\n" +
+      `👤 *Nome:* ${nome}\n` +
+      (telefone ? `📞 *Telefone:* ${telefone}\n` : "") +
+      `🏠 *Endereço:* ${endereco}\n` +
+      (pagamento && pagamento !== "Não informado" ? `💳 *Pagamento:* ${pagamento}\n` : "") +
+      (troco ? `💵 *Troco para:* ${troco}\n` : "") +
+      "\n🍽 *Itens do pedido:*\n" +
+      resumoItens +
+      `\n💰 *Total:* R$ ${total.toFixed(2)}\n`;
+
+    if (obs) {
+      textoResumo += `\n📝 *Observações:* ${obs}\n`;
+    }
+
+    textoResumo += "\n(Confirmar recebimento com o cliente pelo WhatsApp ou telefone.)";
+
+    resumoPedido.textContent = textoResumo.replace(/\n/g, "\n");
+    resumoTotal.style.display = "flex";
+    resumoTotalValor.textContent = `R$ ${total.toFixed(2)}`;
+
+    ultimoResumoTexto = textoResumo;
+
+    alert("Pedido montado com sucesso! Confira o resumo ao lado.");
+  });
+
+  if (WHATSAPP_NUMBER && WHATSAPP_NUMBER.trim() !== "") {
+    btnEnviarWhats.disabled = false;
+  } else {
+    btnEnviarWhats.disabled = true;
+  }
+
+  btnEnviarWhats.addEventListener("click", () => {
+    if (!WHATSAPP_NUMBER || WHATSAPP_NUMBER.trim() === "") {
+      alert("Configure o número de WhatsApp do restaurante no código (const WHATSAPP_NUMBER) para habilitar o envio.");
+      return;
+    }
+    if (!ultimoResumoTexto) {
+      alert("Monte primeiro o pedido clicando em 'Finalizar pedido'.");
+      return;
+    }
+    const msg = encodeURIComponent(ultimoResumoTexto);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    window.open(url, "_blank");
+  });
+</script>
+
+</body>
+</html>
