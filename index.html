@@ -279,7 +279,6 @@
   <div class="header-inner">
     <h1 class="header-title">Restaurante e Marmitaria Nossa Senhora Aparecida</h1>
     <div class="logo-slot">
-      <!-- Use este nome de arquivo no mesmo diretório do index.html -->
       <img src="logo-nossa-senhora.jpg" alt="Restaurante e Marmitaria Nossa Senhora Aparecida" class="logo-img">
     </div>
   </div>
@@ -292,7 +291,6 @@
     <div>
       <div class="card">
         <div class="cardapio-img">
-          <!-- Use este nome de arquivo para o cardápio no mesmo diretório -->
           <img id="cardapioImg" src="cardapio-restaurante.jpg" alt="Cardápio do Dia">
         </div>
       </div>
@@ -428,8 +426,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzx3CT2Ow75Zb5JSQ8cy1toem9nFgHqxXHOK_6CbUuioZ5ar6zT1zzzyup_c02-uHs2/exec";
+
 const WHATSAPP_NUMBER = "5512987036362";
 const PIX_KEY = "545405380001";
+
+// 🔄 Carregar cardápio automaticamente do Google Sheets (aba Config)
+async function carregarCardapio() {
+  try {
+    const r = await fetch(API_URL, { cache: "no-store" });
+    const data = await r.json();
+
+    // Esperado: { ok:true, cardapio:{ img:"...", texto:"..." } }
+    if (data && data.ok && data.cardapio && data.cardapio.img) {
+      const imgUrl = String(data.cardapio.img).trim();
+      if (imgUrl) {
+        document.getElementById("cardapioImg").src = imgUrl;
+      }
+    }
+  } catch (e) {
+    console.log("Falha ao carregar cardápio:", e);
+  }
+}
+carregarCardapio();
 
 const payOptions = document.querySelectorAll(".pay-option");
 const pagamentoHidden = document.getElementById("pagamentoCliente");
@@ -493,6 +512,22 @@ document.getElementById("btnCopyPix").onclick = () => {
 
 let resumoFinal = "";
 
+// Helper: envia pedido para o Google Sheets (sem travar a tela do cliente)
+function registrarPedidoNoSheets(payload) {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "text/plain;charset=utf-8" }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data || !data.ok) {
+      console.warn("Falha ao registrar pedido:", data);
+    }
+  })
+  .catch(err => console.warn("Erro ao registrar pedido:", err));
+}
+
 document.getElementById("formPedido").onsubmit = e => {
   e.preventDefault();
 
@@ -554,6 +589,19 @@ ${obs || "Nenhuma"}${textoCartao}`;
 
   document.getElementById("resumo-pedido").textContent = resumoFinal;
   document.getElementById("btnEnviarWhats").disabled = false;
+
+  // ✅ Registra o pedido na planilha (Google Sheets)
+  registrarPedidoNoSheets({
+    action: "new_order",
+    nome,
+    telefone: tel,
+    endereco: end,
+    pedido,
+    pagamento: pg,
+    troco,
+    obs,
+    origem: "site-clientes"
+  });
 };
 
 document.getElementById("btnEnviarWhats").onclick = () => {
