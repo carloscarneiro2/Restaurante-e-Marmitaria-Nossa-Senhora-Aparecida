@@ -15,20 +15,24 @@
       color: #e5e7eb;
     }
 
-    /* ===== HEADER SOMENTE COM IMAGEM ===== */
+    /* ===== HEADER COM IMAGEM REAL (SEM BUG) ===== */
     .header-image {
       width: 100%;
-      height: 170px;                 /* 🔥 ajuste se quiser */
-      background-image: url("header-topo.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+      height: 180px;              /* 🔥 tamanho ideal */
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    .header-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;          /* mantém imagem grande e proporcional */
+      display: block;
     }
 
     @media (max-width: 768px) {
       .header-image {
-        height: 120px;
+        height: 130px;
       }
     }
 
@@ -173,8 +177,10 @@
 
 <body>
 
-<!-- 🔥 TOPO APENAS COM IMAGEM -->
-<header class="header-image"></header>
+<!-- 🔥 TOPO COM IMAGEM GARANTIDA -->
+<header class="header-image">
+  <img src="header-topo.jpg" alt="Restaurante Nossa Senhora Aparecida">
+</header>
 
 <main>
   <div class="layout">
