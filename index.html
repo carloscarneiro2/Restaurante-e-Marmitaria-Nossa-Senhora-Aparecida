@@ -7,14 +7,7 @@
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0f172a;
-      color: #e5e7eb;
-    }
-
+    body { margin: 0; padding: 0; background: #0f172a; color: #e5e7eb; }
     header {
       background: linear-gradient(135deg, #b91c1c, #f97316);
       color: #fff;
@@ -23,253 +16,63 @@
       display: flex;
       justify-content: center;
     }
-
     .header-inner {
-      max-width: 1100px;
-      width: 100%;
-      padding: 0 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      max-width: 1100px; width: 100%; padding: 0 18px;
+      display: flex; align-items: center; gap: 16px;
     }
-
-    .header-title {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 0;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-      flex: 1;
-    }
-
-    /* Logo largo ocupando ao máximo o espaço em branco */
-    .logo-slot {
-      max-width: 360px;
-      height: 90px;
-      flex-shrink: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .logo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-      background: #ffffff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
-      display: block;
-    }
-
+    .header-title { font-size: 20px; font-weight: bold; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.4); flex: 1; }
+    .logo-slot { max-width: 360px; height: 90px; flex-shrink: 0; display: flex; justify-content: flex-end; align-items: center; }
+    .logo-img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.35); display: block; }
     @media(max-width: 900px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .logo-slot {
-        width: 100%;
-        max-width: none;
-      }
-      .logo-img {
-        max-height: 90px;
-      }
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .logo-slot { width: 100%; max-width: none; }
+      .logo-img { max-height: 90px; }
     }
-
-    main {
-      max-width: 1100px;
-      margin: 20px auto;
-      padding: 10px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 2fr 1.5fr;
-      gap: 20px;
-    }
-
-    @media(max-width: 900px) {
-      .layout { grid-template-columns: 1fr; }
-    }
-
+    main { max-width: 1100px; margin: 20px auto; padding: 10px; }
+    .layout { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; }
+    @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
     .card {
-      background: #ffffff;
-      color: #333;
-      border-radius: 14px;
-      padding: 18px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-      border: 1px solid #d1d5db;
-      margin-bottom: 16px;
+      background: #ffffff; color: #333; border-radius: 14px; padding: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25); border: 1px solid #d1d5db; margin-bottom: 16px;
     }
-
     .card-title { font-size: 18px; font-weight: bold; }
-    .card-subtitle { font-size: 13px; color: #666; margin-bottom: 12px; }
-
-    .cardapio-img img {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      display: block;
-    }
-
+    .cardapio-img img { width: 100%; border-radius: 10px; border: 1px solid #ccc; display: block; }
     label { display:block; font-weight:bold; margin-top:10px; font-size: 14px; }
-
     input, textarea {
       width: 100%; padding: 10px; margin-top: 4px;
-      border-radius: 8px; border: 1px solid #bbb;
-      font-size: 14px;
+      border-radius: 8px; border: 1px solid #bbb; font-size: 14px;
     }
-
     textarea { min-height: 80px; resize: vertical; }
-
-    .btn-primary {
-      background: #b91c1c; color:#fff; border:none;
-      padding: 10px 16px; border-radius:8px;
-      font-weight:bold; cursor:pointer;
-    }
-
-    .btn-whats {
-      background: #22c55e; color:#fff;
-      padding: 10px 16px; border-radius:8px;
-      border:none; cursor:pointer;
-      margin-left:10px;
-      font-weight:bold;
-    }
-
-    .btn-whats:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .btn-copy {
-      background: #0f172a;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 12px;
-      cursor: pointer;
-      margin-top: 6px;
-    }
-
-    .payment-box {
-      background:#f7f7f7; padding:15px; border-radius:12px;
-      border:1px solid #ccc; margin-top: 10px;
-    }
-
-    .payment-title {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
+    .btn-primary { background: #b91c1c; color:#fff; border:none; padding: 10px 16px; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .btn-whats { background: #22c55e; color:#fff; padding: 10px 16px; border-radius:8px; border:none; cursor:pointer; margin-left:10px; font-weight:bold; }
+    .btn-whats:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-copy { background: #0f172a; color: #fff; padding: 6px 10px; border-radius: 6px; border: none; font-size: 12px; cursor: pointer; margin-top: 6px; }
+    .payment-box { background:#f7f7f7; padding:15px; border-radius:12px; border:1px solid #ccc; margin-top: 10px; }
+    .payment-title { font-weight: bold; margin-bottom: 6px; }
     .pay-option {
-      background:#fff; border-radius:10px;
-      border:1px solid #ccc;
-      padding:12px; margin-top:10px;
-      display:flex; justify-content:space-between; align-items: center;
-      cursor:pointer;
-      transition:0.15s;
+      background:#fff; border-radius:10px; border:1px solid #ccc;
+      padding:12px; margin-top:10px; display:flex; justify-content:space-between; align-items: center;
+      cursor:pointer; transition:0.15s;
     }
-
-    .pay-option:hover {
-      border-color:#b91c1c;
-    }
-
-    .pay-option.selected {
-      border-color:#b91c1c;
-      background:#ffecec;
-      box-shadow:0 0 0 2px #ffb3b3;
-    }
-
+    .pay-option:hover { border-color:#b91c1c; }
+    .pay-option.selected { border-color:#b91c1c; background:#ffecec; box-shadow:0 0 0 2px #ffb3b3; }
     .flag-row { display:flex; gap:6px; margin-top:4px; }
-    .flag {
-      padding:3px 8px; background:#fff;
-      border:1px solid #aaa; border-radius:6px;
-      font-size:12px;
-    }
-
+    .flag { padding:3px 8px; background:#fff; border:1px solid #aaa; border-radius:6px; font-size:12px; }
     .card-details {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px dashed #bbb;
-      background: #ffffff;
-      display: none;
+      margin-top: 12px; padding: 10px; border-radius: 10px;
+      border: 1px dashed #bbb; background: #ffffff; display: none;
     }
-
-    .card-details-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 10px;
-    }
-
-    .card-details-row-3 {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 10px;
-    }
-
-    @media(max-width: 600px) {
-      .card-details-row,
-      .card-details-row-3 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card-details label {
-      font-size: 13px;
-      margin-top: 6px;
-    }
-
-    .card-warning {
-      font-size: 11px;
-      color: #b91c1c;
-      margin-top: 6px;
-    }
-
+    .card-details-row { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+    .card-details-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+    @media(max-width: 600px) { .card-details-row, .card-details-row-3 { grid-template-columns: 1fr; } }
+    .card-warning { font-size: 11px; color: #b91c1c; margin-top: 6px; }
     .pix-details {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px dashed #bbb;
-      background: #ffffff;
-      display: none;
-      font-size: 13px;
+      margin-top: 12px; padding: 10px; border-radius: 10px;
+      border: 1px dashed #bbb; background: #ffffff; display: none; font-size: 13px;
     }
-
-    .pix-key-box {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 10px;
-    }
-
-    .pix-key-input {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #bbb;
-      font-size: 13px;
-    }
-
-    .pix-qr-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    #pixQr {
-      background: #fff;
-      padding: 6px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-
-    pre#resumo-pedido {
-      white-space: pre-wrap;
-      font-size: 14px;
-      color: #333;
-    }
+    .pix-key-input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #bbb; font-size: 13px; }
+    #pixQr { background: #fff; padding: 6px; border-radius: 8px; border: 1px solid #ddd; }
+    pre#resumo-pedido { white-space: pre-wrap; font-size: 14px; color: #333; }
   </style>
 </head>
 
@@ -287,7 +90,6 @@
 <main>
   <div class="layout">
 
-    <!-- LADO ESQUERDO – APENAS A IMAGEM DO CARDÁPIO -->
     <div>
       <div class="card">
         <div class="cardapio-img">
@@ -296,13 +98,11 @@
       </div>
     </div>
 
-    <!-- LADO DIREITO – FORMULÁRIO -->
     <div>
       <div class="card">
         <div class="card-title">Monte seu Pedido</div>
 
         <form id="formPedido">
-
           <label for="nomeCliente">Nome completo</label>
           <input id="nomeCliente" required>
 
@@ -342,7 +142,6 @@
 
             <input type="hidden" id="pagamentoCliente">
 
-            <!-- Detalhes do cartão -->
             <div id="cardDetails" class="card-details">
               <div class="card-details-row">
                 <div>
@@ -379,7 +178,6 @@
               </p>
             </div>
 
-            <!-- Detalhes Pix: chave + QR Code -->
             <div id="pixDetails" class="pix-details">
               <div class="pix-key-box">
                 <span><b>Chave Pix (copia e cola):</b></span>
@@ -394,7 +192,6 @@
 
           </div>
 
-          <!-- Troco: só aparece quando escolher Dinheiro -->
           <div id="trocoBox">
             <label for="trocoCliente">Troco para quanto? (se for dinheiro)</label>
             <input id="trocoCliente" placeholder="Ex.: R$ 100,00">
@@ -422,7 +219,6 @@
 
 </main>
 
-<!-- Biblioteca para gerar QR Code -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
@@ -431,20 +227,16 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzx3CT2Ow75Zb5JSQ8cy1to
 const WHATSAPP_NUMBER = "5512987036362";
 const PIX_KEY = "545405380001";
 
-// 🔄 Carregar cardápio automaticamente do Google Sheets (aba Config)
+// 🔄 Carrega imagem do cardápio do Sheets (Config B1)
 async function carregarCardapio() {
   try {
     const r = await fetch(API_URL, { cache: "no-store" });
     const data = await r.json();
-
-    // Esperado: { ok:true, cardapio:{ img:"...", texto:"..." } }
-    if (data && data.ok && data.cardapio && data.cardapio.img) {
-      const imgUrl = String(data.cardapio.img).trim();
-      if (imgUrl) {
-        document.getElementById("cardapioImg").src = imgUrl;
-      }
+    if (data?.ok && data.cardapio?.img) {
+      const url = String(data.cardapio.img).trim();
+      if (url) document.getElementById("cardapioImg").src = url;
     }
-  } catch (e) {
+  } catch(e) {
     console.log("Falha ao carregar cardápio:", e);
   }
 }
@@ -457,7 +249,6 @@ const pixDetailsBox = document.getElementById("pixDetails");
 const trocoBox = document.getElementById("trocoBox");
 let pixQrInstance = null;
 
-// Troco começa escondido até escolher "Dinheiro"
 trocoBox.style.display = "none";
 
 payOptions.forEach(opt => {
@@ -478,11 +269,7 @@ payOptions.forEach(opt => {
       trocoBox.style.display = "none";
       document.getElementById("trocoCliente").value = "";
       if (!pixQrInstance) {
-        pixQrInstance = new QRCode(document.getElementById("pixQr"), {
-          text: PIX_KEY,
-          width: 128,
-          height: 128
-        });
+        pixQrInstance = new QRCode(document.getElementById("pixQr"), { text: PIX_KEY, width: 128, height: 128 });
       }
     } else if (method === "Dinheiro") {
       cardDetailsBox.style.display = "none";
@@ -497,35 +284,25 @@ payOptions.forEach(opt => {
   };
 });
 
-// Copiar chave Pix
 document.getElementById("btnCopyPix").onclick = () => {
   const input = document.getElementById("pixKeyInput");
   input.select();
   input.setSelectionRange(0, 99999);
-  try {
-    document.execCommand("copy");
-    alert("Chave Pix copiada!");
-  } catch (e) {
-    alert("Não foi possível copiar automaticamente. Copie manualmente: " + PIX_KEY);
-  }
+  try { document.execCommand("copy"); alert("Chave Pix copiada!"); }
+  catch (e) { alert("Copie manualmente: " + PIX_KEY); }
 };
 
 let resumoFinal = "";
 
-// Helper: envia pedido para o Google Sheets (sem travar a tela do cliente)
+// ✅ grava no Sheets sem travar a tela
 function registrarPedidoNoSheets(payload) {
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(payload),
     headers: { "Content-Type": "text/plain;charset=utf-8" }
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (!data || !data.ok) {
-      console.warn("Falha ao registrar pedido:", data);
-    }
-  })
-  .catch(err => console.warn("Erro ao registrar pedido:", err));
+  }).then(r => r.json())
+    .then(data => { if (!data?.ok) console.warn("Falha ao registrar:", data); })
+    .catch(err => console.warn("Erro ao registrar:", err));
 }
 
 document.getElementById("formPedido").onsubmit = e => {
@@ -545,12 +322,8 @@ document.getElementById("formPedido").onsubmit = e => {
   }
 
   let textoExtraPg = "";
-  if (pg === "Dinheiro" && troco) {
-    textoExtraPg = "\nTroco para: " + troco;
-  }
-  if (pg === "Pix") {
-    textoExtraPg = "\nChave Pix: " + PIX_KEY;
-  }
+  if (pg === "Dinheiro" && troco) textoExtraPg = "\nTroco para: " + troco;
+  if (pg === "Pix") textoExtraPg = "\nChave Pix: " + PIX_KEY;
 
   let textoCartao = "";
   if (pg === "Cartões") {
@@ -590,7 +363,7 @@ ${obs || "Nenhuma"}${textoCartao}`;
   document.getElementById("resumo-pedido").textContent = resumoFinal;
   document.getElementById("btnEnviarWhats").disabled = false;
 
-  // ✅ Registra o pedido na planilha (Google Sheets)
+  // ✅ registra no Sheets
   registrarPedidoNoSheets({
     action: "new_order",
     nome,
@@ -605,10 +378,7 @@ ${obs || "Nenhuma"}${textoCartao}`;
 };
 
 document.getElementById("btnEnviarWhats").onclick = () => {
-  if (!resumoFinal) {
-    alert("Monte o pedido antes de enviar pelo WhatsApp.");
-    return;
-  }
+  if (!resumoFinal) return alert("Monte o pedido antes de enviar.");
   const msg = encodeURIComponent(resumoFinal);
   window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg, "_blank");
 };
