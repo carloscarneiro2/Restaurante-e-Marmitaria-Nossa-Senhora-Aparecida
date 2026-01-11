@@ -2,114 +2,112 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Restaurante e Marmitaria Nossa Senhora Aparecida</title>
+  <title>Restaurante Nossa Senhora Aparecida</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0f172a;
-      color: #e5e7eb;
+    body{
+      margin:0;
+      padding:0;
+      background:#0f172a;
+      color:#e5e7eb;
     }
 
-    /* ===== HEADER COM IMAGEM REAL (SEM BUG) ===== */
-    .header-image {
-      width: 100%;
-      height: 180px;              /* 🔥 tamanho ideal */
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    /* ===== TOPO (SÓ IMAGEM) ===== */
+    .header-image{
+      width:100%;
+      height:170px;                 /* 🔥 grande */
+      overflow:hidden;
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+      background: #0b1225;
+    }
+    .header-image img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;             /* cobre tudo sem deformar */
+      object-position:center;       /* centraliza */
     }
 
-    .header-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;          /* mantém imagem grande e proporcional */
-      display: block;
+    @media (max-width: 768px){
+      .header-image{ height:120px; }
     }
 
-    @media (max-width: 768px) {
-      .header-image {
-        height: 130px;
-      }
+    main{
+      max-width:1100px;
+      margin:20px auto;
+      padding:10px;
     }
 
-    main {
-      max-width: 1100px;
-      margin: 20px auto;
-      padding: 10px;
-    }
-
-    .layout {
-      display: grid;
+    .layout{
+      display:grid;
       grid-template-columns: 2fr 1.5fr;
-      gap: 20px;
+      gap:20px;
+    }
+    @media(max-width:900px){
+      .layout{ grid-template-columns:1fr; }
     }
 
-    @media(max-width: 900px) {
-      .layout { grid-template-columns: 1fr; }
+    .card{
+      background:#fff;
+      color:#333;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.28);
+      border:1px solid #d1d5db;
+      margin-bottom:16px;
     }
 
-    .card {
-      background: #ffffff;
-      color: #333;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
-      border: 1px solid #d1d5db;
-      margin-bottom: 16px;
+    .card-title{
+      font-size:18px;
+      font-weight:bold;
+      margin-bottom:10px;
     }
 
-    .card-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
+    .cardapio-img img{
+      width:100%;
+      border-radius:14px;
+      border:1px solid #ccc;
+      display:block;
     }
 
-    .cardapio-img img {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid #ccc;
-      display: block;
-    }
-
-    label {
+    label{
       display:block;
       font-weight:bold;
       margin-top:10px;
-      font-size: 14px;
+      font-size:14px;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      font-size: 14px;
+    input, textarea{
+      width:100%;
+      padding:10px;
+      margin-top:4px;
+      border-radius:8px;
+      border:1px solid #bbb;
+      font-size:14px;
     }
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
+    textarea{
+      min-height:80px;
+      resize:vertical;
     }
 
-    .btn-primary {
-      background: #b91c1c;
+    .btn-primary{
+      background:#b91c1c;
       color:#fff;
       border:none;
-      padding: 10px 16px;
+      padding:10px 16px;
       border-radius:8px;
       font-weight:bold;
       cursor:pointer;
     }
 
-    .btn-whats {
-      background: #22c55e;
+    .btn-whats{
+      background:#22c55e;
       color:#fff;
-      padding: 10px 16px;
+      padding:10px 16px;
       border-radius:8px;
       border:none;
       cursor:pointer;
@@ -117,25 +115,25 @@
       font-weight:bold;
     }
 
-    .btn-whats:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .btn-whats:disabled{
+      opacity:0.6;
+      cursor:not-allowed;
     }
 
-    .payment-box {
+    .payment-box{
       background:#f7f7f7;
       padding:15px;
       border-radius:12px;
       border:1px solid #ccc;
-      margin-top: 10px;
+      margin-top:10px;
     }
 
-    .payment-title {
-      font-weight: bold;
-      margin-bottom: 6px;
+    .payment-title{
+      font-weight:bold;
+      margin-bottom:6px;
     }
 
-    .pay-option {
+    .pay-option{
       background:#fff;
       border-radius:10px;
       border:1px solid #ccc;
@@ -143,23 +141,18 @@
       margin-top:10px;
       display:flex;
       justify-content:space-between;
-      align-items: center;
+      align-items:center;
       cursor:pointer;
     }
 
-    .pay-option.selected {
+    .pay-option.selected{
       border-color:#b91c1c;
       background:#ffecec;
       box-shadow:0 0 0 2px #ffb3b3;
     }
 
-    .flag-row {
-      display:flex;
-      gap:6px;
-      margin-top:4px;
-    }
-
-    .flag {
+    .flag-row{ display:flex; gap:6px; margin-top:4px; }
+    .flag{
       padding:3px 8px;
       background:#fff;
       border:1px solid #aaa;
@@ -167,25 +160,24 @@
       font-size:12px;
     }
 
-    pre {
-      white-space: pre-wrap;
-      font-size: 14px;
-      color: #333;
+    pre{
+      white-space:pre-wrap;
+      font-size:14px;
+      color:#333;
     }
   </style>
 </head>
 
 <body>
 
-<!-- 🔥 TOPO COM IMAGEM GARANTIDA -->
 <header class="header-image">
-  <img src="header-topo.jpg" alt="Restaurante Nossa Senhora Aparecida">
+  <!-- ✅ aqui usa o arquivo que existe no seu repo -->
+  <img src="logo-nossa-senhora.jpg" alt="Restaurante Nossa Senhora Aparecida">
 </header>
 
 <main>
   <div class="layout">
 
-    <!-- CARDÁPIO -->
     <div>
       <div class="card">
         <div class="cardapio-img">
@@ -194,7 +186,6 @@
       </div>
     </div>
 
-    <!-- FORMULÁRIO -->
     <div>
       <div class="card">
         <div class="card-title">Monte seu Pedido</div>
@@ -262,23 +253,23 @@
   const API_URL = "https://script.google.com/macros/s/AKfycbzx3CT2Ow75Zb5JSQ8cy1toem9nFgHqxXHOK_6CbUuioZ5ar6zT1zzzyup_c02-uHs2/exec";
   const WHATSAPP_NUMBER = "5512987036362";
 
-  async function carregarCardapio() {
-    try {
+  async function carregarCardapio(){
+    try{
       const r = await fetch(API_URL, { cache: "no-store" });
       const data = await r.json();
-      if (data.ok && data.cardapio?.img) {
+      if(data.ok && data.cardapio?.img){
         document.getElementById("cardapioImg").src = data.cardapio.img;
       }
-    } catch (e) {}
+    } catch(e){}
   }
   carregarCardapio();
 
   const payOptions = document.querySelectorAll(".pay-option");
   const pagamentoHidden = document.getElementById("pagamentoCliente");
 
-  payOptions.forEach(opt => {
-    opt.onclick = () => {
-      payOptions.forEach(o => o.classList.remove("selected"));
+  payOptions.forEach(opt=>{
+    opt.onclick = ()=>{
+      payOptions.forEach(o=>o.classList.remove("selected"));
       opt.classList.add("selected");
       pagamentoHidden.value = opt.dataset.method;
     };
@@ -286,7 +277,7 @@
 
   let resumoFinal = "";
 
-  formPedido.onsubmit = async e => {
+  formPedido.onsubmit = async e=>{
     e.preventDefault();
 
     const nome = nomeCliente.value.trim();
@@ -296,7 +287,7 @@
     const end = enderecoCliente.value.trim();
     const obs = obsCliente.value.trim();
 
-    if (!nome || !pedido || !pg || !end) {
+    if(!nome || !pedido || !pg || !end){
       alert("Preencha todos os campos obrigatórios.");
       return;
     }
@@ -330,15 +321,12 @@ ${end}
 📝 Obs:
 ${obs || "-"}`;
 
-    resumoPedido.textContent = resumoFinal;
+    document.getElementById("resumo-pedido").textContent = resumoFinal;
     btnEnviarWhats.disabled = false;
   };
 
-  btnEnviarWhats.onclick = () => {
-    window.open(
-      "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(resumoFinal),
-      "_blank"
-    );
+  btnEnviarWhats.onclick = ()=>{
+    window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(resumoFinal), "_blank");
   };
 </script>
 
