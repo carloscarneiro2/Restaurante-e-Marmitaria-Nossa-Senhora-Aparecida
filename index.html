@@ -1069,16 +1069,15 @@ ${obs || "-"}
 
     try {
       const payload = {
-        action: "create_order",
-        PedidoID: pedidoIdAtual,
-        Nome: nome,
-        Telefone: tel,
-        Endereco: end,
-        Pedido: pedido,
-        Pagamento: pg,
-        Troco: troco,
-        Obs: obs,
-        Origem: "Site clientes"
+        action: "new_order",
+        nome: nome,
+        telefone: tel,
+        endereco: end,
+        pedido: pedido,
+        pagamento: pg,
+        troco: troco,
+        obs: obs,
+        origem: "site-clientes"
       };
 
       const res = await enviarPedido(payload);
