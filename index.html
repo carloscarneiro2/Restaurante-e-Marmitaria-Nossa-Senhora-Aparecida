@@ -470,6 +470,69 @@
       color: #4b5563;
     }
 
+    .pix-box {
+      display: none;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .pix-options {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .radio-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .radio-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(185,28,28,0.08);
+    }
+
+    .radio-card input {
+      width: auto;
+      margin-top: 3px;
+      flex: 0 0 auto;
+    }
+
+    .radio-card b {
+      display: block;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    .radio-card small {
+      display: block;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+
+    .pix-key-box {
+      margin-top: 10px;
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -789,7 +852,7 @@
                 <div>
                   <b>Pix</b>
                   <br>
-                  <small>Chave: 545405380001</small>
+                  <small>Pague na entrega ou informe se já pagou agora</small>
                 </div>
                 <div class="pay-icon">🔁</div>
               </div>
@@ -798,7 +861,7 @@
                 <div>
                   <b>Dinheiro</b>
                   <br>
-                  <small>Informe se precisa de troco nas observações</small>
+                  <small>Pagamento na entrega ou retirada</small>
                 </div>
                 <div class="pay-icon">💵</div>
               </div>
@@ -809,6 +872,38 @@
             <div id="trocoBox" style="display:none;">
               <label>Troco para quanto?</label>
               <input id="trocoCliente" placeholder="Ex: R$ 100,00">
+            </div>
+
+            <div id="pixBox" class="pix-box">
+              <label>Como deseja pagar no Pix? <span class="required">*</span></label>
+
+              <div class="pix-key-box">
+                🔑 Chave Pix: <b>545405380001</b><br>
+                Após pagar, informe uma referência para conferência do restaurante.
+              </div>
+
+              <div class="pix-options">
+                <label class="radio-card">
+                  <input type="radio" name="pixStatus" value="Pix na entrega">
+                  <span>
+                    <b>Pagar Pix na entrega/retirada</b>
+                    <small>O pagamento será feito no momento da entrega ou retirada.</small>
+                  </span>
+                </label>
+
+                <label class="radio-card">
+                  <input type="radio" name="pixStatus" value="Pix já pago">
+                  <span>
+                    <b>Já paguei via Pix</b>
+                    <small>Informe uma referência para o restaurante conferir o pagamento.</small>
+                  </span>
+                </label>
+              </div>
+
+              <div id="pixRefBox" style="display:none; margin-top:12px;">
+                <label>Referência do Pix <span class="required">*</span></label>
+                <input id="pixReferencia" placeholder="Ex: nome no comprovante, horário ou ID da transação">
+              </div>
             </div>
 
             <div>
@@ -849,7 +944,7 @@
           <br>
 
           <div class="notice">
-            ⚠️ O pagamento não é confirmado automaticamente pelo site. O restaurante fará a conferência do pedido e da forma de pagamento.
+            ⚠️ Pagamentos informados como Pix já pago serão conferidos manualmente pelo restaurante antes da confirmação.
           </div>
         </div>
       </aside>
@@ -875,8 +970,13 @@
   const descricaoPedido = $("descricaoPedido");
   const enderecoCliente = $("enderecoCliente");
   const obsCliente = $("obsCliente");
+
   const trocoCliente = $("trocoCliente");
   const trocoBox = $("trocoBox");
+
+  const pixBox = $("pixBox");
+  const pixRefBox = $("pixRefBox");
+  const pixReferencia = $("pixReferencia");
 
   const resumoPedido = $("resumo-pedido");
   const btnFinalizar = $("btnFinalizar");
@@ -921,10 +1021,23 @@
     return "PED-" + data + "-" + hora;
   }
 
-  function definirStatusPagamento(pg) {
-    if (pg === "Pix") return "Aguardando confirmação do Pix";
-    if (pg === "Cartão") return "Pagar no cartão na entrega/retirada";
-    if (pg === "Dinheiro") return "Pagar em dinheiro na entrega/retirada";
+  function definirStatusPagamento(pg, pixStatus) {
+    if (pg === "Pix") {
+      if (pixStatus === "Pix já pago") {
+        return "Pix informado como pago - aguardando conferência";
+      }
+
+      return "Pix na entrega/retirada";
+    }
+
+    if (pg === "Cartão") {
+      return "Pagar no cartão na entrega/retirada";
+    }
+
+    if (pg === "Dinheiro") {
+      return "Pagar em dinheiro na entrega/retirada";
+    }
+
     return "Aguardando confirmação";
   }
 
@@ -997,16 +1110,40 @@
       payOptions.forEach(o => o.classList.remove("selected"));
       opt.classList.add("selected");
 
-      pagamentoHidden.value = opt.dataset.method;
+      const metodo = opt.dataset.method;
+      pagamentoHidden.value = metodo;
 
-      badgePagamento.textContent = "Pagamento: " + opt.dataset.method;
+      badgePagamento.textContent = "Pagamento: " + metodo;
       badgePagamento.className = "badge ok";
 
-      if (opt.dataset.method === "Dinheiro") {
+      if (metodo === "Dinheiro") {
         trocoBox.style.display = "block";
       } else {
         trocoBox.style.display = "none";
         trocoCliente.value = "";
+      }
+
+      if (metodo === "Pix") {
+        pixBox.style.display = "block";
+      } else {
+        pixBox.style.display = "none";
+        pixRefBox.style.display = "none";
+        pixReferencia.value = "";
+
+        document.querySelectorAll("input[name='pixStatus']").forEach(r => {
+          r.checked = false;
+        });
+      }
+    });
+  });
+
+  document.querySelectorAll("input[name='pixStatus']").forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (radio.value === "Pix já pago" && radio.checked) {
+        pixRefBox.style.display = "block";
+      } else if (radio.checked) {
+        pixRefBox.style.display = "none";
+        pixReferencia.value = "";
       }
     });
   });
@@ -1025,14 +1162,28 @@
     const obs = obsCliente.value.trim();
     const troco = trocoCliente.value.trim();
 
+    const pixStatusSelecionado = document.querySelector("input[name='pixStatus']:checked");
+    const pixStatus = pixStatusSelecionado ? pixStatusSelecionado.value : "";
+    const pixRef = pixReferencia.value.trim();
+
     if (!nome || !pedido || !pg || !end) {
       mostrarErro("Preencha os campos obrigatórios: nome, pedido, pagamento e endereço.");
       return;
     }
 
+    if (pg === "Pix" && !pixStatus) {
+      mostrarErro("Selecione se o Pix será pago na entrega ou se já foi pago.");
+      return;
+    }
+
+    if (pg === "Pix" && pixStatus === "Pix já pago" && !pixRef) {
+      mostrarErro("Informe uma referência do Pix para conferência do restaurante.");
+      return;
+    }
+
     pedidoIdAtual = gerarNumeroPedido();
 
-    const statusPagamento = definirStatusPagamento(pg);
+    const statusPagamento = definirStatusPagamento(pg, pixStatus);
 
     resumoFinal =
 `📦 NOVO PEDIDO
@@ -1047,6 +1198,7 @@ ${pedido}
 💳 Pagamento: ${pg}
 💵 Troco: ${troco || "-"}
 ✅ Status pagamento: ${statusPagamento}
+🔎 Referência Pix: ${pixRef || "-"}
 
 🏠 ENDEREÇO:
 ${end}
@@ -1076,6 +1228,8 @@ ${obs || "-"}
         pedido: pedido,
         pagamento: pg,
         troco: troco,
+        status_pagamento: statusPagamento,
+        referencia_pix: pixRef,
         obs: obs,
         origem: "site-clientes"
       };
@@ -1095,6 +1249,13 @@ ${obs || "-"}
       payOptions.forEach(o => o.classList.remove("selected"));
       pagamentoHidden.value = "";
       trocoBox.style.display = "none";
+      pixBox.style.display = "none";
+      pixRefBox.style.display = "none";
+      pixReferencia.value = "";
+
+      document.querySelectorAll("input[name='pixStatus']").forEach(r => {
+        r.checked = false;
+      });
 
     } catch(err) {
       badgeStatus.textContent = "Status: erro no envio";
@@ -1116,7 +1277,15 @@ ${obs || "-"}
 
     payOptions.forEach(o => o.classList.remove("selected"));
     pagamentoHidden.value = "";
+
     trocoBox.style.display = "none";
+    pixBox.style.display = "none";
+    pixRefBox.style.display = "none";
+    pixReferencia.value = "";
+
+    document.querySelectorAll("input[name='pixStatus']").forEach(r => {
+      r.checked = false;
+    });
 
     resumoFinal = "";
     pedidoIdAtual = "";
