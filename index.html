@@ -2,20 +2,19 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Restaurante Nossa Senhora Aparecida | Pedidos Online</title>
+  <title>Restaurante Nossa Senhora Aparecida | Pedido Online</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     :root {
       --bg: #0f172a;
-      --bg-soft: #111827;
       --primary: #b91c1c;
       --primary-dark: #7f1d1d;
       --yellow: #facc15;
       --green: #22c55e;
-      --green-dark: #16a34a;
+      --green-dark: #15803d;
       --text: #111827;
-      --muted: #6b7280;
+      --muted: #64748b;
       --card: #ffffff;
       --border: #e5e7eb;
       --shadow: 0 18px 45px rgba(0,0,0,0.25);
@@ -35,8 +34,8 @@
       margin: 0;
       padding: 0;
       background:
-        radial-gradient(circle at top left, rgba(250,204,21,0.16), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(185,28,28,0.25), transparent 32%),
+        radial-gradient(circle at top left, rgba(250,204,21,0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(185,28,28,0.22), transparent 32%),
         linear-gradient(135deg, #0f172a 0%, #111827 45%, #1f2937 100%);
       color: #e5e7eb;
       min-height: 100vh;
@@ -44,7 +43,7 @@
 
     .topbar {
       width: 100%;
-      background: rgba(15, 23, 42, 0.92);
+      background: rgba(15, 23, 42, 0.94);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       position: sticky;
@@ -66,7 +65,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 800;
+      font-weight: 900;
+      color: #fff;
       letter-spacing: .2px;
     }
 
@@ -84,6 +84,8 @@
       gap: 8px;
       font-size: 13px;
       color: #d1d5db;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .status-pill {
@@ -92,7 +94,7 @@
       border: 1px solid rgba(34,197,94,0.35);
       padding: 6px 10px;
       border-radius: 999px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
     }
 
@@ -103,58 +105,69 @@
     }
 
     .hero-card {
-      background:
-        linear-gradient(135deg, rgba(250,204,21,0.94), rgba(245,158,11,0.96)),
-        url("logo-nossa-senhora.jpg");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: contain;
+      background: linear-gradient(135deg, rgba(250,204,21,0.98), rgba(245,158,11,0.98));
       border-radius: 30px;
-      min-height: 220px;
+      min-height: 240px;
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.12fr 0.88fr;
       align-items: center;
+      gap: 22px;
       padding: 28px;
       color: #111827;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      right: -120px;
+      top: -150px;
     }
 
     .hero-card::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(250,204,21,0.98) 0%, rgba(250,204,21,0.86) 48%, rgba(250,204,21,0.25) 100%);
-      z-index: 0;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(185,28,28,0.12);
+      right: 210px;
+      bottom: -150px;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 560px;
+      max-width: 590px;
     }
 
     .hero-kicker {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.76);
       color: #7f1d1d;
       border: 1px solid rgba(127,29,29,0.15);
       padding: 7px 12px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 12px;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(28px, 4vw, 48px);
+      font-size: clamp(30px, 4vw, 50px);
       line-height: 1.02;
       font-weight: 900;
       color: #111827;
+      letter-spacing: -1.2px;
     }
 
     .hero p {
@@ -162,7 +175,7 @@
       color: #374151;
       font-size: 16px;
       line-height: 1.45;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .hero-actions {
@@ -182,10 +195,15 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      transition: .2s ease;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-1px);
     }
 
     .hero-btn.primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       box-shadow: 0 10px 25px rgba(185,28,28,0.35);
     }
@@ -194,6 +212,28 @@
       background: white;
       color: #111827;
       border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .hero-logo-box {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.56);
+      border: 1px solid rgba(255,255,255,0.74);
+      border-radius: 26px;
+      padding: 18px;
+      min-height: 165px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.12);
+    }
+
+    .hero-logo-box img {
+      max-width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.10));
     }
 
     main {
@@ -221,7 +261,7 @@
 
     .section-title {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 14px;
@@ -237,7 +277,8 @@
     .section-title span {
       font-size: 13px;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 800;
+      text-align: right;
     }
 
     .cardapio-img {
@@ -245,13 +286,39 @@
       border-radius: 18px;
       padding: 10px;
       border: 1px solid var(--border);
+      min-height: 260px;
+      display: grid;
+      place-items: center;
     }
 
     .cardapio-img img {
       width: 100%;
       border-radius: 14px;
-      display: block;
+      display: none;
       border: 1px solid #e5e7eb;
+      background: #fff;
+    }
+
+    .cardapio-loading {
+      color: #64748b;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.45;
+      padding: 28px 12px;
+    }
+
+    .menu-text {
+      margin-top: 12px;
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+      border-radius: 16px;
+      padding: 13px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      display: none;
     }
 
     .info-grid {
@@ -277,7 +344,7 @@
 
     .info-box small {
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     form {
@@ -287,7 +354,7 @@
 
     label {
       display: block;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
       color: #374151;
       margin-bottom: 6px;
@@ -339,7 +406,7 @@
 
     .payment-title small {
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .pay-option {
@@ -372,7 +439,7 @@
 
     .pay-option small {
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .pay-icon {
@@ -383,6 +450,7 @@
       place-items: center;
       background: #f3f4f6;
       font-size: 22px;
+      flex: 0 0 auto;
     }
 
     .flag-row {
@@ -398,7 +466,7 @@
       border: 1px solid #e5e7eb;
       border-radius: 999px;
       font-size: 11px;
-      font-weight: 800;
+      font-weight: 900;
       color: #4b5563;
     }
 
@@ -407,12 +475,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 4px;
-    }
-
-    .actions-bottom {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
     }
 
     button {
@@ -431,7 +493,7 @@
     }
 
     button:disabled {
-      opacity: 0.52;
+      opacity: 0.58;
       cursor: not-allowed;
       transform: none;
     }
@@ -440,17 +502,6 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
       box-shadow: 0 10px 22px rgba(185,28,28,0.25);
-    }
-
-    .btn-whats {
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      color: #fff;
-      box-shadow: 0 10px 22px rgba(34,197,94,0.22);
-    }
-
-    .btn-print {
-      background: #111827;
-      color: #fff;
     }
 
     .btn-clear {
@@ -521,7 +572,33 @@
       border-radius: 16px;
       padding: 13px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .success-box {
+      display: none;
+      margin-top: 12px;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .error-box {
+      display: none;
+      margin-top: 12px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 800;
       line-height: 1.45;
     }
 
@@ -570,12 +647,15 @@
         padding: 22px;
       }
 
+      .hero-logo-box {
+        min-height: 130px;
+      }
+
       .row-2 {
         grid-template-columns: 1fr;
       }
 
-      .actions,
-      .actions-bottom {
+      .actions {
         grid-template-columns: 1fr;
       }
 
@@ -606,16 +686,20 @@
   <section class="hero">
     <div class="hero-card">
       <div class="hero-content">
-        <div class="hero-kicker">🍽️ Pedido rápido pelo WhatsApp</div>
+        <div class="hero-kicker">🍽️ Pedido online do dia</div>
         <h1>Monte seu pedido de forma simples e segura.</h1>
         <p>
-          Escolha conforme o cardápio, informe seus dados, forma de pagamento e envie o pedido diretamente para o restaurante.
+          Escolha conforme o cardápio, informe seus dados, selecione a forma de pagamento e finalize seu pedido.
         </p>
 
         <div class="hero-actions">
           <a href="#formPedido" class="hero-btn primary">Fazer pedido agora</a>
           <a href="#cardapio" class="hero-btn secondary">Ver cardápio</a>
         </div>
+      </div>
+
+      <div class="hero-logo-box">
+        <img src="logo-nossa-senhora.jpg" alt="Restaurante Nossa Senhora Aparecida">
       </div>
     </div>
   </section>
@@ -627,17 +711,22 @@
         <div class="card" id="cardapio">
           <div class="section-title">
             <h2>Cardápio do dia</h2>
-            <span>Atualize a imagem quando necessário</span>
+            <span>Atualizado pelo restaurante</span>
           </div>
 
           <div class="cardapio-img">
-            <img id="cardapioImg" src="cardapio-restaurante.jpg" alt="Cardápio do Restaurante Nossa Senhora Aparecida">
+            <img id="cardapioImgCliente" src="" alt="Cardápio do Restaurante Nossa Senhora Aparecida">
+            <div id="cardapioLoading" class="cardapio-loading">
+              Carregando cardápio do dia...
+            </div>
           </div>
+
+          <div id="cardapioTextoCliente" class="menu-text"></div>
 
           <div class="info-grid">
             <div class="info-box">
-              <strong>📲 Pedido direto</strong>
-              <small>O pedido é enviado pelo WhatsApp.</small>
+              <strong>📲 Pedido online</strong>
+              <small>O pedido é enviado direto para o restaurante.</small>
             </div>
 
             <div class="info-box">
@@ -646,8 +735,8 @@
             </div>
 
             <div class="info-box">
-              <strong>🧾 Impressão</strong>
-              <small>Imprima o pedido após finalizar.</small>
+              <strong>🧾 Confirmação</strong>
+              <small>O restaurante confirma o pedido recebido.</small>
             </div>
           </div>
         </div>
@@ -717,6 +806,11 @@
               <input type="hidden" id="pagamentoCliente">
             </div>
 
+            <div id="trocoBox" style="display:none;">
+              <label>Troco para quanto?</label>
+              <input id="trocoCliente" placeholder="Ex: R$ 100,00">
+            </div>
+
             <div>
               <label>Endereço completo <span class="required">*</span></label>
               <textarea id="enderecoCliente" placeholder="Rua, número, bairro, cidade e ponto de referência" required></textarea>
@@ -724,19 +818,17 @@
 
             <div>
               <label>Observações</label>
-              <textarea id="obsCliente" placeholder="Ex: sem salada, entregar no portão, troco para R$ 100..."></textarea>
+              <textarea id="obsCliente" placeholder="Ex: sem salada, entregar no portão, retirar no balcão..."></textarea>
             </div>
 
             <div class="actions">
-              <button class="btn-primary" type="submit">Finalizar pedido</button>
+              <button class="btn-primary" id="btnFinalizar" type="submit">Finalizar pedido</button>
               <button class="btn-clear" id="btnLimpar" type="button">Limpar campos</button>
             </div>
-
-            <div class="actions-bottom">
-              <button class="btn-whats" id="btnEnviarWhats" type="button" disabled>Enviar via WhatsApp</button>
-              <button class="btn-print" id="btnImprimir" type="button" disabled>Imprimir pedido</button>
-            </div>
           </form>
+
+          <div id="successBox" class="success-box"></div>
+          <div id="errorBox" class="error-box"></div>
         </div>
       </div>
 
@@ -757,7 +849,7 @@
           <br>
 
           <div class="notice">
-            ⚠️ Este site não recebe pagamento automático. O status de pagamento deve ser confirmado manualmente pelo restaurante.
+            ⚠️ O pagamento não é confirmado automaticamente pelo site. O restaurante fará a conferência do pedido e da forma de pagamento.
           </div>
         </div>
       </aside>
@@ -766,41 +858,50 @@
   </main>
 
   <div class="footer">
-    Restaurante Nossa Senhora Aparecida • Pedido online sem cobrança pelo site • Desenvolvido para atendimento via WhatsApp
+    Restaurante Nossa Senhora Aparecida • Pedido online • Atendimento com confirmação do restaurante
   </div>
 
 <script>
-  const WHATSAPP_NUMBER = "5512987036362";
+  const API_URL = "https://script.google.com/macros/s/AKfycbzx3CT2Ow75Zb5JSQ8cy1toem9nFgHqxXHOK_6CbUuioZ5ar6zT1zzzyup_c02-uHs2/exec";
 
-  const formPedido = document.getElementById("formPedido");
+  const $ = (id) => document.getElementById(id);
+
+  const formPedido = $("formPedido");
   const payOptions = document.querySelectorAll(".pay-option");
-  const pagamentoHidden = document.getElementById("pagamentoCliente");
+  const pagamentoHidden = $("pagamentoCliente");
 
-  const nomeCliente = document.getElementById("nomeCliente");
-  const telefoneCliente = document.getElementById("telefoneCliente");
-  const descricaoPedido = document.getElementById("descricaoPedido");
-  const enderecoCliente = document.getElementById("enderecoCliente");
-  const obsCliente = document.getElementById("obsCliente");
+  const nomeCliente = $("nomeCliente");
+  const telefoneCliente = $("telefoneCliente");
+  const descricaoPedido = $("descricaoPedido");
+  const enderecoCliente = $("enderecoCliente");
+  const obsCliente = $("obsCliente");
+  const trocoCliente = $("trocoCliente");
+  const trocoBox = $("trocoBox");
 
-  const resumoPedido = document.getElementById("resumo-pedido");
-  const btnEnviarWhats = document.getElementById("btnEnviarWhats");
-  const btnImprimir = document.getElementById("btnImprimir");
-  const btnLimpar = document.getElementById("btnLimpar");
+  const resumoPedido = $("resumo-pedido");
+  const btnFinalizar = $("btnFinalizar");
+  const btnLimpar = $("btnLimpar");
 
-  const badgePagamento = document.getElementById("badgePagamento");
-  const badgeStatus = document.getElementById("badgeStatus");
-  const numeroPedido = document.getElementById("numeroPedido");
-  const horaAtual = document.getElementById("horaAtual");
+  const badgePagamento = $("badgePagamento");
+  const badgeStatus = $("badgeStatus");
+  const numeroPedido = $("numeroPedido");
+  const horaAtual = $("horaAtual");
+
+  const successBox = $("successBox");
+  const errorBox = $("errorBox");
 
   let resumoFinal = "";
   let pedidoIdAtual = "";
 
   function atualizarHora() {
     const agora = new Date();
-    horaAtual.textContent = agora.toLocaleDateString("pt-BR") + " • " + agora.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+
+    horaAtual.textContent =
+      agora.toLocaleDateString("pt-BR") + " • " +
+      agora.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
   }
 
   atualizarHora();
@@ -808,6 +909,7 @@
 
   function gerarNumeroPedido() {
     const agora = new Date();
+
     const data = agora.getFullYear().toString()
       + String(agora.getMonth() + 1).padStart(2, "0")
       + String(agora.getDate()).padStart(2, "0");
@@ -820,34 +922,100 @@
   }
 
   function definirStatusPagamento(pg) {
-    if (pg === "Pix") {
-      return "Aguardando confirmação do Pix";
-    }
-
-    if (pg === "Cartão") {
-      return "Pagar no cartão na entrega/retirada";
-    }
-
-    if (pg === "Dinheiro") {
-      return "Pagar em dinheiro na entrega/retirada";
-    }
-
+    if (pg === "Pix") return "Aguardando confirmação do Pix";
+    if (pg === "Cartão") return "Pagar no cartão na entrega/retirada";
+    if (pg === "Dinheiro") return "Pagar em dinheiro na entrega/retirada";
     return "Aguardando confirmação";
   }
+
+  function mostrarErro(msg) {
+    errorBox.style.display = "block";
+    errorBox.textContent = msg;
+    successBox.style.display = "none";
+  }
+
+  function mostrarSucesso(msg) {
+    successBox.style.display = "block";
+    successBox.textContent = msg;
+    errorBox.style.display = "none";
+  }
+
+  async function getPublic() {
+    const r = await fetch(API_URL, { cache: "no-store" });
+    return r.json();
+  }
+
+  async function enviarPedido(payload) {
+    const r = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      }
+    });
+
+    return r.json();
+  }
+
+  async function carregarCardapio() {
+    try {
+      const pub = await getPublic();
+
+      const img = $("cardapioImgCliente");
+      const loading = $("cardapioLoading");
+      const texto = $("cardapioTextoCliente");
+
+      const url = pub?.cardapio?.img || "";
+      const txt = pub?.cardapio?.texto || "";
+
+      if (url) {
+        img.src = url;
+        img.style.display = "block";
+        loading.style.display = "none";
+      } else {
+        img.style.display = "none";
+        loading.style.display = "block";
+        loading.textContent = "Cardápio ainda não cadastrado pelo restaurante.";
+      }
+
+      if (txt.trim()) {
+        texto.textContent = txt;
+        texto.style.display = "block";
+      } else {
+        texto.textContent = "";
+        texto.style.display = "none";
+      }
+    } catch(e) {
+      $("cardapioLoading").textContent = "Não foi possível carregar o cardápio no momento.";
+    }
+  }
+
+  carregarCardapio();
 
   payOptions.forEach(opt => {
     opt.addEventListener("click", () => {
       payOptions.forEach(o => o.classList.remove("selected"));
       opt.classList.add("selected");
+
       pagamentoHidden.value = opt.dataset.method;
 
       badgePagamento.textContent = "Pagamento: " + opt.dataset.method;
       badgePagamento.className = "badge ok";
+
+      if (opt.dataset.method === "Dinheiro") {
+        trocoBox.style.display = "block";
+      } else {
+        trocoBox.style.display = "none";
+        trocoCliente.value = "";
+      }
     });
   });
 
-  formPedido.addEventListener("submit", e => {
+  formPedido.addEventListener("submit", async e => {
     e.preventDefault();
+
+    successBox.style.display = "none";
+    errorBox.style.display = "none";
 
     const nome = nomeCliente.value.trim();
     const tel = telefoneCliente.value.trim();
@@ -855,9 +1023,10 @@
     const pg = pagamentoHidden.value.trim();
     const end = enderecoCliente.value.trim();
     const obs = obsCliente.value.trim();
+    const troco = trocoCliente.value.trim();
 
     if (!nome || !pedido || !pg || !end) {
-      alert("Preencha os campos obrigatórios: nome, pedido, pagamento e endereço.");
+      mostrarErro("Preencha os campos obrigatórios: nome, pedido, pagamento e endereço.");
       return;
     }
 
@@ -876,6 +1045,7 @@
 ${pedido}
 
 💳 Pagamento: ${pg}
+💵 Troco: ${troco || "-"}
 ✅ Status pagamento: ${statusPagamento}
 
 🏠 ENDEREÇO:
@@ -888,105 +1058,58 @@ ${obs || "-"}
 
     resumoPedido.textContent = resumoFinal;
 
-    btnEnviarWhats.disabled = false;
-    btnImprimir.disabled = false;
-
     numeroPedido.textContent = pedidoIdAtual;
     badgePagamento.textContent = "Pagamento: " + pg;
     badgePagamento.className = "badge ok";
-    badgeStatus.textContent = "Status: pedido montado";
-    badgeStatus.className = "badge ok";
+    badgeStatus.textContent = "Status: enviando pedido";
+    badgeStatus.className = "badge wait";
 
-    resumoPedido.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
+    btnFinalizar.disabled = true;
+    btnFinalizar.textContent = "Enviando pedido...";
 
-  btnEnviarWhats.addEventListener("click", () => {
-    if (!resumoFinal) {
-      alert("Monte o pedido antes de enviar.");
-      return;
+    try {
+      const payload = {
+        action: "create_order",
+        PedidoID: pedidoIdAtual,
+        Nome: nome,
+        Telefone: tel,
+        Endereco: end,
+        Pedido: pedido,
+        Pagamento: pg,
+        Troco: troco,
+        Obs: obs,
+        Origem: "Site clientes"
+      };
+
+      const res = await enviarPedido(payload);
+
+      if (!res?.ok) {
+        throw new Error(res?.error || "O pedido não foi salvo. Verifique o Apps Script.");
+      }
+
+      badgeStatus.textContent = "Status: pedido enviado";
+      badgeStatus.className = "badge ok";
+
+      mostrarSucesso("✅ Pedido enviado com sucesso! O restaurante recebeu sua solicitação e fará a confirmação.");
+
+      formPedido.reset();
+      payOptions.forEach(o => o.classList.remove("selected"));
+      pagamentoHidden.value = "";
+      trocoBox.style.display = "none";
+
+    } catch(err) {
+      badgeStatus.textContent = "Status: erro no envio";
+      badgeStatus.className = "badge wait";
+
+      mostrarErro(
+        "Não foi possível enviar o pedido automaticamente. Verifique a conexão ou chame o restaurante pelo WhatsApp."
+      );
+
+      console.error(err);
+    } finally {
+      btnFinalizar.disabled = false;
+      btnFinalizar.textContent = "Finalizar pedido";
     }
-
-    const textoWhats =
-`${resumoFinal}
-
-Por favor, confirmar recebimento do pedido.`;
-
-    window.open(
-      "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(textoWhats),
-      "_blank"
-    );
-  });
-
-  btnImprimir.addEventListener("click", () => {
-    if (!resumoFinal) {
-      alert("Monte o pedido antes de imprimir.");
-      return;
-    }
-
-    const janela = window.open("", "_blank", "width=420,height=650");
-
-    janela.document.write(`
-      <html>
-        <head>
-          <title>${pedidoIdAtual}</title>
-          <style>
-            body {
-              font-family: monospace;
-              font-size: 13px;
-              width: 280px;
-              margin: 0;
-              padding: 10px;
-              color: #000;
-            }
-
-            .center {
-              text-align: center;
-              font-weight: bold;
-            }
-
-            .small {
-              font-size: 11px;
-              text-align: center;
-            }
-
-            hr {
-              border: none;
-              border-top: 1px dashed #000;
-              margin: 10px 0;
-            }
-
-            pre {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              margin: 0;
-            }
-
-            @media print {
-              body {
-                width: 280px;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="center">RESTAURANTE</div>
-          <div class="center">NOSSA SENHORA APARECIDA</div>
-          <div class="small">Comprovante de pedido</div>
-          <hr>
-          <pre>${resumoFinal.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
-          <hr>
-          <div class="center">Obrigado pela preferência!</div>
-
-          <script>
-            window.onload = function() {
-              window.print();
-            };
-          <\/script>
-        </body>
-      </html>
-    `);
-
-    janela.document.close();
   });
 
   btnLimpar.addEventListener("click", () => {
@@ -994,19 +1117,21 @@ Por favor, confirmar recebimento do pedido.`;
 
     payOptions.forEach(o => o.classList.remove("selected"));
     pagamentoHidden.value = "";
+    trocoBox.style.display = "none";
 
     resumoFinal = "";
     pedidoIdAtual = "";
 
     resumoPedido.textContent = "Nenhum pedido montado ainda.";
-    btnEnviarWhats.disabled = true;
-    btnImprimir.disabled = true;
 
     numeroPedido.textContent = "Pedido não gerado";
     badgePagamento.textContent = "Pagamento: -";
     badgePagamento.className = "badge gray";
     badgeStatus.textContent = "Status: aguardando pedido";
     badgeStatus.className = "badge wait";
+
+    successBox.style.display = "none";
+    errorBox.style.display = "none";
   });
 </script>
 
